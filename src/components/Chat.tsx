@@ -13,7 +13,11 @@ type Msg = {
 };
 
 // 回答テキスト中の [n] を、出典にスクロールするチップに変換して描画
-function renderAnswer(content: string, sources: Source[] | undefined) {
+function renderAnswer(
+  content: string,
+  sources: Source[] | undefined,
+  sourceIdPrefix: string,
+) {
   const known = new Set((sources ?? []).map((s) => s.n));
   const parts = content.split(/(\[\d+\])/g);
   return parts.map((part, i) => {
@@ -23,7 +27,7 @@ function renderAnswer(content: string, sources: Source[] | undefined) {
       return (
         <sup key={i}>
           <a
-            href={`#src-${n}`}
+            href={`#${sourceIdPrefix}-${n}`}
             className="mx-0.5 rounded bg-[var(--color-accent)]/15 px-1 py-0.5 text-[10px] font-semibold text-[var(--color-accent)] no-underline hover:bg-[var(--color-accent)]/30"
           >
             {n}
@@ -289,7 +293,7 @@ export default function Chat() {
                   {m.role === "assistant" ? (
                     <>
                       <div className="whitespace-pre-wrap">
-                        {renderAnswer(m.content, m.sources)}
+                        {renderAnswer(m.content, m.sources, `msg-${i}-src`)}
                         {loading && i === messages.length - 1 && !m.content && (
                           <span className="cursor-blink text-[var(--color-muted)]">
                             考えています
@@ -309,7 +313,7 @@ export default function Chat() {
                               return (
                                 <li
                                   key={s.n}
-                                  id={`src-${s.n}`}
+                                  id={`msg-${i}-src-${s.n}`}
                                   className={`rounded-md border px-3 py-2 text-xs ${
                                     used
                                       ? "border-[var(--color-accent)]/50 bg-[var(--color-accent)]/5"
