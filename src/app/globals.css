@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0b0f;
+  --color-bg-soft: #11131a;
+  --color-panel: #14161f;
+  --color-border: #232634;
+  --color-fg: #e7e9ee;
+  --color-muted: #8b90a0;
+  --color-accent: #38e8c8;
+  --color-accent-2: #6aa6ff;
+
+  --font-sans: ui-sans-serif, system-ui, "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", Meiryo, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo,
+    Consolas, monospace;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(
+      60rem 40rem at 85% -10%,
+      rgba(56, 232, 200, 0.07),
+      transparent 60%
+    ),
+    radial-gradient(50rem 40rem at -10% 0%, rgba(106, 166, 255, 0.06), transparent 55%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(56, 232, 200, 0.25);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: "▌";
+  margin-left: 1px;
+  animation: blink 1s step-end infinite;
+  color: var(--color-accent);
+}
